@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app1">
+        <button class='static' :class='{ active:isActive , "text-center":hasError}'>click</button>
+        <button class='static' :class='classObj'>click</button>
+
+    </div>
+
+    <div id="app2">
+        <h1 v-if='awesome'>Vue is awesome!</h1>
+        <h1 v-else> Vue not good!</h1>
+
+        <template v-if='awesome'>
+            <p>1</p>
+            <p>1</p>
+            <p>1</p>
+            <p>1</p>
+        </template>
+        <template v-else>
+            <p>2</p>
+            <p>2</p>
+            <p>2</p>
+        </template>
+    </div>
+
+    <div id="app3">
+        <ul>
+            <li v-for='(item,index) in items'>
+                No.{{ index }} {{ item }}
+            </li>
+        </ul>
+        <ul>
+            <li v-for='(item,index) in itemss'>
+                No.{{ index }} {{ item.name }}
+            </li>
+        </ul>
+        <ul>
+            <li v-for='(value,name,index) in itemsss'>
+                {{index}} {{name}}.{{value}}
+            </li>
+        </ul>
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        var app1 = new Vue({
+            el: '#app1',
+            data: {
+                isActive: true,
+                hasError: false,
+                classObj: {
+                    readonly: true,
+                    disabled: true
+                }
+            }
+        })
+
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                awesome: true
+            }
+        })
+
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                items: [1, 2, 3, 4],
+                itemss: [{
+                    name: 'A'
+                }, {
+                    name: 'B'
+                }, {
+                    name: 'C'
+                }],
+                itemsss: {
+                    name: 'john',
+                    age: '10',
+                    root: 'smith'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
