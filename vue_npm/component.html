@@ -21,7 +21,10 @@
     <div id="blog-post-demo">
         <blog-post v-for='post in posts' :key='post.id' :title='post.title'></blog-post>
     </div>
+    <hr>
+    <div id="blog-posts-events-demo">
 
+    </div>
 
 
     <script src="./node_modules/vue/dist/vue.js"></script>
@@ -39,6 +42,8 @@
             props: ['title'],
             template: "<h3>{{title}}</h3>"
         })
+
+        Vue.component('')
 
         new Vue({
             el: '#app1'
@@ -60,6 +65,26 @@
                         title: 'Why Vue is so fun'
                     }
                 ]
+            }
+        })
+
+        new Vue({
+            el: '#blog-posts-events-demo',
+            data: {
+                posts: [{
+                    id: 1,
+                    title: 'Mine  Mine',
+                    content: 'A Cool Girl With Her Friends'
+                }, {
+                    id: 2,
+                    title: 'Joker',
+                    content: 'Joker Doflramingo stories'
+                }, {
+                    id: 3,
+                    title: 'Cyberpunk 2077',
+                    content: 'A game of Cyberpunk Lets go to fight with the goverment'
+                }],
+                postFontSize: 1
             }
         })
     </script>
