@@ -22,10 +22,18 @@
         <blog-post v-for='post in posts' :key='post.id' :title='post.title'></blog-post>
     </div>
     <hr>
+
     <div id="blog-posts-events-demo">
-
+        <div :style='{ fontSize:postFontSize + "em" }'>
+            <blog-post-ex v-for='post in posts' :post='post' :key='post.id' @enlarge-text='postFontSize+=1'
+                @smaller-text='postFontSize-=$event'>
+            </blog-post-ex>
+        </div>
     </div>
-
+    <hr>
+    <div id="slot">
+        <alert-demo>I found some things!</alert-demo>
+    </div>
 
     <script src="./node_modules/vue/dist/vue.js"></script>
     <script type="text/javascript">
@@ -43,8 +51,31 @@
             template: "<h3>{{title}}</h3>"
         })
 
-        Vue.component('')
+        Vue.component('blog-post-ex', {
+            props: ['post'],
+            template: `
+            <div class='blog-post-ex'>
+                <h3>{{post.title}}</h3>
+                <button @click='$emit("enlarge-text")'>
+                    Enlarge text
+                </button>
+                <button @click='$emit("smaller-text",0.1)'>
+                    reduce text
+                </button>
+                <div v-html='post.content'></div>
+            </div>
+            `
 
+        })
+
+        Vue.component('alert-demo', {
+            template: `
+            <div style='background-color:red'>
+                <strong>Error!</strong>
+                <slot></slot>
+            </div>
+            `
+        })
         new Vue({
             el: '#app1'
         })
@@ -86,6 +117,10 @@
                 }],
                 postFontSize: 1
             }
+        })
+
+        new Vue({
+            el: '#slot'
         })
     </script>
 </body>
