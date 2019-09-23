@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- MVVM是前端的概念，不同于后端的MVC -->
+<!-- 这个div就是MVVM中的V视图 -->
+    <div id="app1">
+        <p>{{ msg }}</p>
+    </div>
+<!--  -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+    // 这个Vue对象就是VM 这个调度M与V的东西
+    var vm=new Vue({
+        el:'#app1',
+        // data属性就是MVVM中的M
+        data:{
+            msg:'data就是MVVM中的M'
+        }
+    })
+    </script>
+</body>
+</html>

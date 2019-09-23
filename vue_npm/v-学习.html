@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 渲染html文本需要使用v-html指令 -->
+    <div id="app">
+        <p v-text='msg'>++++----</p>
+        <p v-text='msg2'></p>
+        <p>{{ msg2 }}</p>
+        <p v-html='msg2'></p>
+
+<!-- v-bind来绑定摸个属性 -->
+        <button v-bind:title='title+"aho"' v-on:click='alert("heuihei")'>button</button>
+    </div>
+
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'haha',
+                msg2: '<h1>haha</h1>',
+                title: '这是一个按钮'
+            },
+            // methods定义当前Vue中可用的方法
+            methods:{ 
+                alert:function(msg){
+                    alert(msg)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
