@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app1">
+        <my-component></my-component>
+    </div>
+    <hr>
+    <div id="app2">
+        <my-component></my-component>
+        <component-a></component-a>
+        <component-b>
+        </component-b>
+    </div>
+    <hr>
+    <div id="app3">
+        <blog-post post-title='驼峰参数需要修改为短横线分割写法'></blog-post>
+        <blog-post-ex title='Test The Prop' post-title='10' :is-published=1000.0></blog-post-ex>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        //全局注册
+        Vue.component('my-component', {
+            template: `
+            <div><h1>全局注册组件</h1><h2>全局注册组件</h2></div>
+            `
+        })
+
+        var app1 = new Vue({
+            el: '#app1'
+        })
+
+        //局部注册组件
+        var ComponentA = {
+            template: `
+            <div>
+                <h1>局部组件A</h1>
+            </div>
+            `
+        }
+
+        var app2 = new Vue({
+            el: '#app2',
+            components: {
+                'component-a': ComponentA,
+                'component-b': {
+                    template: `
+                    <div>
+                        <h2>局部组件B</h2>
+                        <component-a></component-a>
+                    </div>
+                    `,
+                    components: { //为了在component-b中嵌套component-a
+                        'component-a': ComponentA
+                    }
+
+                }
+            }
+        })
+
+        Vue.component('blog-post', {
+            props: ['postTitle'],
+            template: `
+            <p>{{postTitle}}</p>
+            `
+        })
+
+        Vue.component('blog-post-ex', {
+            props: {
+                title: String,
+                isPublished: Number,
+                postTitle: String
+            },
+            template: `
+            <p :test='isPublished' :class='postTitle'>{{title}}{{ isPublished }}</p>
+            `
+        })
+        var app3 = new Vue({
+            el: '#app3'
+        })
+    </script>
+</body>
+
+</html>
