@@ -24,13 +24,13 @@
                 </label>
                 <label>
                     Name:
-                    <input type="text" class="form-control" v-model='name'>
+                    <input type="text" class="form-control" v-model='name' @keyup.enter='add'>
                 </label>
                 <!-- vue中使用事件绑定的方法，加小括号可以传参不加则不可以 -->
                 <input type="button" value="添加" class="btn btn-primary" @click='add'>
                 <label>
                     搜索:
-                    <input type="text" v-model='keywords' class="form-control">
+                    <input type="text" v-model='keywords' class="form-control" v-focus>
                 </label>
             </div>
         </div>
@@ -62,6 +62,11 @@
 
     <script src="node_modules/vue/dist/vue.js"></script>
     <script>
+        Vue.directive('focus', {
+            inserted: function (el) {
+                el.focus()
+            }
+        })
         Vue.filter('dateFormat', (date, pattern = '') => {
             var y = date.getFullYear()
             var m = date.getMonth() + 1
