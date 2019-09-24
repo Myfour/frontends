@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .inner {
+            height: 300px;
+            background-color: cyan
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="inner" @click='divClick'>
+        <!-- 这里button点击时，事件会冒泡先执行btn的事件，又执行div的事件，通过修饰符.stop来解决 -->
+        <button @click.stop='btnClick'>click</button>
+        <!-- 阻止默认行为适用.prevent修饰符,如果这里没加这个修饰符，那么点击事件执行后还会跳转到baidu的页面 -->
+        <a href="https://www.baidu.com" @click.prevent.stop='linkClick'>百度</a>
+    </div>
+
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            methods: {
+                divClick() {
+                    alert('DIV被点击了')
+                },
+                btnClick() {
+                    alert('BTN被点击了')
+                },
+                linkClick() {
+                    alert('A被点击了')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

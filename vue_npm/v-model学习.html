@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{ msg }}
+        <!-- v-bind只实现了数据的单向绑定，从M到V，v-model实现了双向的绑定，V到M M到V -->
+        <!-- v-model用于表单元素中 -->
+        <input type="text" v-model='msg' style='width:50%'>
+    </div>
+
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '哈哈哦啊学习'
+            }
+        })
+    </script>
+</body>
+
+</html>

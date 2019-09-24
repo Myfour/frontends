@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div id="app">
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model='id'>
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model='name'>
+                </label>
+                <!-- vue中使用事件绑定的方法，加小括号可以传参不加则不可以 -->
+                <input type="button" value="添加" class="btn btn-primary" @click='add'>
+                <label>
+                    搜索:
+                    <input type="text" v-model='keywords' class="form-control">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- methods中的依赖属性只要改变也重新执行方法来渲染 -->
+                <tr v-for='item in search(keywords)' :key='item.id'>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.ctime|dateFormat('yyyy-mm-dd') }}</td>
+                    <td>
+                        <a href="" @click.prevent='del(item.id)'>delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.filter('dateFormat', (date, pattern = '') => {
+            var y = date.getFullYear()
+            var m = date.getMonth() + 1
+            var d = date.getDate()
+            if (pattern.toLowerCase() == 'yyyy-mm-dd') {
+                return `${y}-${m}-${d}`
+            } else {
+                return date
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',
+                list: [{
+                    id: 1,
+                    name: '奔驰',
+                    ctime: new Date()
+                }, {
+                    id: 2,
+                    name: '宝马',
+                    ctime: new Date()
+                }]
+            },
+            methods: {
+                add() {
+                    this.list.push({
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date()
+                    })
+                    this.id = this.name = ''
+                },
+                del(id) {
+                    index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true
+                        }
+                    })
+                    console.log(index)
+                    this.list.splice(index, 1)
+                },
+                search(keywords) {
+                    newList = []
+                    this.list.forEach(item => {
+                        if (item.name.indexOf(keywords) != -1) {
+                            newList.push(item)
+                        }
+                    })
+                    return newList
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
