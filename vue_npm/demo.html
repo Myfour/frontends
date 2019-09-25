@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div id="app">
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model='name'>
+                </label>
+                <label>
+                    Username:
+                    <!-- @keyup是键盘点击事件，其后的.enter为键盘修饰符，这里指点击回车键 -->
+                    <input type="text" class="form-control" v-model='username'>
+                </label>
+                <!-- vue中使用事件绑定的方法，加小括号可以传参不加则不可以 -->
+                <input type="button" value="添加" class="btn btn-primary" @click='add'>
+                <label>
+                    搜索:
+                    <input type="text" class="form-control" v-model='keywords'>
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- methods中的依赖属性只要改变也重新执行方法来渲染 -->
+                <tr v-for='item in list' :key='item.id'>
+                    <td v-fontsize='30'>{{ item.id }}</td>
+                    <td v-fontweight='900'>{{ item.name}}</td>
+                    <td>{{ item.username|atyou }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>
+                        <a href="" @click.prevent='del(item.id)'>delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script src="./node_modules/axios/dist/axios.js"></script>
+    <script>
+        Vue.directive('fontsize', {
+            bind: function (el, binding) {
+                el.style.fontSize = binding.value + 'px'
+            }
+        })
+
+        Vue.directive('fontweight', {
+            bind: function (el, binding) {
+                el.style.fontWeight = binding.value
+            }
+        })
+
+
+        Vue.filter('atyou', item => {
+            return '@' + item
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: '',
+                name: '',
+                username: '',
+                keywords: ''
+            },
+            methods: {
+                getUser() {
+                    axios.get('http://jsonplaceholder.typicode.com/users').then(response => { this.list = response.data })
+                },
+                del(id) {
+                    axios.delete(`http://jsonplaceholder.typicode.com/users/${id}`)
+                        .then((response) => { alert(`此条删除请求成功，请求结果返回了${response.statusText}`) })
+                },
+                add() {
+                    axios.post('http://jsonplaceholder.typicode.com/users',
+                        {
+                            body: JSON.stringify({
+                                name: this.name,
+                                username: this.username
+                            })
+                        }).then(res => { alert(res.data.body) })
+                },
+                search() {
+                    
+                }
+            },
+            created() {
+                this.getUser()
+            },
+        })
+    </script>
+</body>
+
+</html>
