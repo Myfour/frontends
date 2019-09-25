@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{ msg }}
+        <button @click='msg="变"'>click</button>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'some messages!'
+            },
+            methods: {
+                show() {
+                    console.log('This is show method !!! ')
+                    return 'show method is done !'
+                }
+            },
+            // 生命周期相关的钩子
+            beforeCreate() { // 表示实例被完全创建前会执行的函数
+                console.log(this.msg)
+                //console.log(this.show())
+            },
+            created() { // 表示实例创建完成后的执行的函数
+                console.log(this.msg)
+                console.log(this.show())
+            },
+            beforeMount() { // 此时页面还未渲染，还是最原始的页面
+                console.log(document.getElementById('app').innerText)
+            },
+            // 对比上下这两个钩子可以看出下面的钩子已经完成了模板的渲染
+            mounted() { // 此时页面已经渲染完了，Vue实例完成渲染，原始el原素被模板替换
+                console.log(document.getElementById('app').innerText)
+            },
+            beforeUpdate() { // 数据更新阶段，当数据已经改变，但是还没有渲染到页面上
+                console.log(`当前数据:${this.msg}`)
+                console.log(`页面上的数据为:${document.getElementById('app').innerText}`)
+            },
+            updated() { // 数据更新阶段，当数据已经改变，但是还没有渲染到页面上
+                console.log(`当前数据:${this.msg}`)
+                console.log(`页面上的数据为:${document.getElementById('app').innerText}`)
+            },
+
+        })
+    </script>
+</body>
+
+</html>

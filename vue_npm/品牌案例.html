@@ -24,13 +24,14 @@
                 </label>
                 <label>
                     Name:
+                    <!-- @keyup是键盘点击事件，其后的.enter为键盘修饰符，这里指点击回车键 -->
                     <input type="text" class="form-control" v-model='name' @keyup.enter='add'>
                 </label>
                 <!-- vue中使用事件绑定的方法，加小括号可以传参不加则不可以 -->
                 <input type="button" value="添加" class="btn btn-primary" @click='add'>
                 <label>
                     搜索:
-                    <input type="text" v-model='keywords' class="form-control" v-focus>
+                    <input type="text" v-model='keywords' class="form-control" v-focus v-color="'blue'">
                 </label>
             </div>
         </div>
@@ -47,8 +48,8 @@
             <tbody>
                 <!-- methods中的依赖属性只要改变也重新执行方法来渲染 -->
                 <tr v-for='item in search(keywords)' :key='item.id'>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td v-fontsize='30'>{{ item.id }}</td>
+                    <td v-fontweight='900'>{{ item.name|add123 }}</td>
                     <td>{{ item.ctime|dateFormat('yyyy-mm-dd') }}</td>
                     <td>
                         <a href="" @click.prevent='del(item.id)'>delete</a>
@@ -62,11 +63,21 @@
 
     <script src="node_modules/vue/dist/vue.js"></script>
     <script>
+        // 自定义指令,第一个参数为指令名称,第二个参数为一个对象,该对象中存着指令的几个钩子
+        // 你需要根据情况设置这些钩子
         Vue.directive('focus', {
             inserted: function (el) {
                 el.focus()
             }
         })
+        // 这里提到了自定义指令的钩子接收到的参数，可以查官网，binding可以获取指令中传来的值等东西
+        Vue.directive('color', {
+            bind: function (el, binding) {
+                var value = binding.value
+                el.style.color = value
+            }
+        })
+        // 自定义过滤器，过滤器放到双大括号的文本对象的后面，用|管道符分割
         Vue.filter('dateFormat', (date, pattern = '') => {
             var y = date.getFullYear()
             var m = date.getMonth() + 1
@@ -77,6 +88,8 @@
                 return date
             }
         })
+
+
         var vm = new Vue({
             el: '#app',
             data: {
@@ -120,7 +133,28 @@
                     })
                     return newList
                 }
-            }
+            },
+            // 设置局部自定义过滤器
+            filters: {
+                add123: item => {
+                    return item + '123'
+                }
+            },
+
+            // 设置局部自定义指令
+            directives: {
+                fontweight: {
+                    bind: (el, binding) => {
+                        el.style.fontWeight = binding.value
+                    }
+                },
+                // 指令简写，默认实现指令的bind与update钩子按照你写的函数实现
+                fontsize: function (el, binding) {
+                    
+                    el.style.fontSize = parseInt(binding.value) + 'px'
+                }
+            },
+
         })
     </script>
 </body>
