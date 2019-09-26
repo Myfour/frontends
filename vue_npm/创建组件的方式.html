@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <mytemp-1></mytemp-1>
+        <hr>
+        <mytemp-2></mytemp-2>
+        <hr>
+        <counter></counter>
+        <counter></counter>
+        <counter></counter>
+    </div>
+
+    <!-- 编写组件的模板 -->
+    <template id="templ">
+        <div>
+            <h2>这是另一种方式</h2>
+            <h3>好用</h3>
+        </div>
+    </template>
+    <template id="counter">
+        <div>
+            <input type="button" value='+1' @click='counter'>
+            result:{{count}}
+        </div>
+    </template>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('mytemp-1', {
+            template: `
+            <div>
+                <h1>这是其中一种方式</h1>
+                <h2>还不错</h2>
+            </div>
+            `
+        })
+
+        Vue.component('mytemp-2', {
+            template: '#templ'
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                counter: {
+                    template: '#counter',
+                    data: function () {
+                        return {
+                            count: 0
+                        }
+                    },
+                    methods: {
+                        counter() {
+                            this.count++
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

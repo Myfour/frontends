@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{msg}}
+        <com1 :parentmsg='msg'></com1>
+    </div>
+
+    <hr>
+
+    <!-- 父组件传一个method给子组件 -->
+    <div id="app2">
+        <ccopn @ptocfunc='show'></ccopn>
+    </div>
+    <template id="ctmpl">
+        <div>
+            <b>这是子组件：{{msg}}</b>
+            <input type="button" value="使用父组件的show方法" @click='cshow'>
+        </div>
+    </template>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '这是父组件的msg数据'
+            },
+            components: {
+                com1: {
+                    template: `<h1>子组件--------{{ cmsg }}-----父组件传来的----{{ parentmsg}}</h1>`,
+                    data: function () { // data中的都是可多可写的
+                        return {
+                            cmsg: '子组件msg数据'
+                        }
+                    },
+                    props: ['parentmsg'] // 这里的数据时只读的
+                }
+            }
+        })
+
+        // 子组件传父组件
+        Vue.component('ccopn', {
+            template: '#ctmpl',
+            data() {
+                return {
+                    msg: '来自子组件的100'
+                }
+            },
+            methods: { //子组件通过emit调用父组件传递来的事件，将子组件的msg传给了父组件的show方法执行，实现子传父
+                cshow() {
+                    this.$emit('ptocfunc', this.msg)
+                }
+            }
+        })
+        var vm2 = new Vue({
+            el: "#app2",
+            data: {
+                msg: '来自父组件的999'
+            },
+            methods: {
+                show(data = 88) {
+                    console.log('父组件的show方法:' + data)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

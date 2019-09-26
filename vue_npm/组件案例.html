@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <cmt-box @load='loadComment'></cmt-box>
+
+
+
+
+
+        <ul class="list-group">
+            <li class="list-group-item" v-for='item in list'>
+                <span class="badge">用户 : {{ item.user }}</span>
+                {{ item.content }}
+            </li>
+        </ul>
+
+    </div>
+
+
+    <!-- 模板 -->
+    <template id="cmt-box">
+        <div>
+            <div class="form-group">
+                <label>评论人 : </label>
+                <input type="text" class="form-control" v-model='user'>
+            </div>
+            <div class="form-group">
+                <label>评论内容 : </label>
+                <textarea class="form-control" v-model='content'></textarea>
+            </div>
+            <div class="form-group">
+                <input type="button" value="发表" class="btn btn-success" @click='postComment'>
+            </div>
+        </div>
+    </template>
+    <!--  -->
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                list: [{
+                        id: Date.now(),
+                        user: '福克斯',
+                        content: '喝完这杯庆功酒把你装进魔法口袋'
+                    },
+                    {
+                        id: Date.now(),
+                        user: '法老',
+                        content: '全校第一是我，第二是我表姐'
+                    },
+                    {
+                        id: Date.now(),
+                        user: '皮几万',
+                        content: '原来冠军被我内定'
+                    }
+                ]
+            },
+            components: {
+                'cmt-box': {
+                    template: '#cmt-box',
+                    data() {
+                        return {
+                            user: '',
+                            content: ''
+                        }
+                    },
+                    methods: {
+                        postComment() {
+                            var comment = {
+                                id: Date.now(),
+                                user: this.user,
+                                content: this.content
+                            }
+                            var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+                            list.push(comment)
+
+                            localStorage.setItem('cmts', JSON.stringify(list))
+                            this.user = this.content = ''
+
+                            this.$emit('load')
+                        },
+                    }
+                }
+            },
+            methods: {
+                loadComment() {
+                    console.log('loadComment going')
+                    var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+                    this.list = list
+                }
+            },
+            created() {
+                this.loadComment()
+            },
+
+        })
+    </script>
+</body>
+
+</html>

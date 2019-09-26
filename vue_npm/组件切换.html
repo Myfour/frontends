@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <a href="" @click.prevent='flag=true'>登录</a>
+        <a href="" @click.prevent='flag=false'>注册</a>
+        <login v-if='flag'></login>
+        <register v-else></register>
+        <hr>
+        <!-- 组件切换第二种方式 -->
+        <a href="" @click.prevent='comName="login"'>登录</a>
+        <a href="" @click.prevent='comName="register"'>注册</a>
+        <!-- component标签可以放置组件，根据:is传入的组件名称来替换这个标签的内容 -->
+        <component :is="comName"></component>
+    </div>
+    <!-- Template start -->
+    <template id="login">
+        <div>
+            登录组件
+        </div>
+    </template>
+    <template id="register">
+        <div>
+            注册组件
+        </div>
+    </template>
+    <!-- Template end -->
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('login', {
+            template: '#login'
+        })
+        Vue.component('register', {
+            template: '#register'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                comName: 'login'
+            }
+        })
+    </script>
+</body>
+
+</html>

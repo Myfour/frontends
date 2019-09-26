@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- 该demo使用了jsonplaceholder提供API，使用Axios操作API，
+    demo中的增删操作达到了成功增删的效果，但是无法在API对应的数据库中直接增删 -->
 
 <head>
     <meta charset="UTF-8">
@@ -92,23 +94,28 @@
             },
             methods: {
                 getUser() {
-                    axios.get('http://jsonplaceholder.typicode.com/users').then(response => { this.list = response.data })
+                    axios.get('http://jsonplaceholder.typicode.com/users').then(response => {
+                        this.list = response.data
+                    })
                 },
                 del(id) {
                     axios.delete(`http://jsonplaceholder.typicode.com/users/${id}`)
-                        .then((response) => { alert(`此条删除请求成功，请求结果返回了${response.statusText}`) })
+                        .then((response) => {
+                            alert(`此条删除请求成功，请求结果返回了${response.statusText}`)
+                        })
                 },
                 add() {
-                    axios.post('http://jsonplaceholder.typicode.com/users',
-                        {
-                            body: JSON.stringify({
-                                name: this.name,
-                                username: this.username
-                            })
-                        }).then(res => { alert(res.data.body) })
+                    axios.post('http://jsonplaceholder.typicode.com/users', {
+                        body: JSON.stringify({
+                            name: this.name,
+                            username: this.username
+                        })
+                    }).then(res => {
+                        alert(res.data.body)
+                    })
                 },
                 search() {
-                    
+
                 }
             },
             created() {
