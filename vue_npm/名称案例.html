@@ -31,7 +31,7 @@
                     return this.fullname = this.firstname + '-' + this.lastname
                 }
             },
-            watch: {
+            watch: { // 监视器 ，监视属性的变化，下面设置的属性任何一个发生变化都会调用其相应设置的方法
                 firstname: function () {
                     this.getFullName()
                 },
