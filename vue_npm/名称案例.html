@@ -15,6 +15,8 @@
         <input type="text" v-model='lastname'>
         =
         <input type="text" v-model='fullname'>
+        <hr>
+        <input type="text" v-model='fullnameComputed'>
     </div>
 
     <script src="./node_modules/vue/dist/vue.js"></script>
@@ -39,6 +41,11 @@
                     this.getFullName()
                 }
             },
+            computed: {
+                fullnameComputed: function () {
+                    return this.firstname + '-' + this.lastname
+                }
+            }
         })
     </script>
 </body>
