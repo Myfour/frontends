@@ -10,3 +10,4 @@ class Person {
         age: 20
     }
 }
+console.log(Person.info)
