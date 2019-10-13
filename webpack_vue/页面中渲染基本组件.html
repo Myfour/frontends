@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 原始组件渲染 -->
+    <div id="app">
+        <h1>222</h1>
+        <login></login>
+    </div>
+    <hr>
+    <!-- 使用render渲染组件 -->
+    <div id="app2">
+        <h2>333</h2>
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var login = {
+            template: '<h1>这是登录组件</h1>'
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                login
+            }
+        })
+
+        var vm2 = new Vue({
+            el: "#app2",
+            // 使用render渲染组件后，这个对应元素会被整个替换
+            render: function (createElements) {
+                return createElements(login)
+            }
+        })
+    </script>
+</body>
+
+</html>
