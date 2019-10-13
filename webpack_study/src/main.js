@@ -3,6 +3,11 @@
 // 1.导入Jquery
 //  import .... from ... 是ES6的模块导入方式
 import $ from 'jquery'
+import './css/index.css'
+import './css/index.less'
+import './css/index.scss'
+
+
 
 $(function () {
     $('li:odd').css('backgroundColor', 'hotpink')
